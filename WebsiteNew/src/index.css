@@ -1,0 +1,303 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* PREMIUM LUXURY FONTS */
+
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&display=swap');
+
+/* ROOT */
+
+:root {
+
+  /* COLORS */
+
+  --background:
+    #f6f1e8;
+
+  --cream:
+    #efe7dc;
+
+  --text-primary:
+    #1f170f;
+
+  --text-secondary:
+    #6d6254;
+
+  --gold:
+    #b08a57;
+
+  --gold-light:
+    #d4af6d;
+
+  --green:
+    #1f3a2c;
+
+  --green-soft:
+    #294838;
+
+  /* FONTS */
+
+  --font-heading:
+    "Cormorant Garamond",
+    serif;
+
+  --font-body:
+    "HelveticaNowMTText",
+    "Lucida Sans",
+    "Lucida Grande",
+    "Lucida Sans Unicode",
+    "Trebuchet MS",
+    sans-serif;
+}
+
+/* GLOBAL */
+
+html {
+
+  scroll-behavior: smooth;
+}
+
+body {
+
+  font-family: var(--font-body);
+
+  background: var(--background);
+
+  color: var(--text-primary);
+
+  overflow-x: hidden;
+
+  text-rendering: optimizeLegibility;
+
+  -webkit-font-smoothing: antialiased;
+
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* HEADINGS */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+
+  font-family: var(--font-heading);
+
+  font-weight: 600;
+
+  letter-spacing: -0.045em;
+
+  line-height: 0.92;
+
+  color: var(--text-primary);
+}
+
+/* PARAGRAPHS */
+
+p {
+
+  line-height: 1.9;
+
+  letter-spacing: 0.01em;
+
+  color: var(--text-secondary);
+}
+
+/* RESET */
+
+* {
+
+  margin: 0;
+
+  padding: 0;
+
+  box-sizing: border-box;
+}
+
+/* IMAGES */
+
+img {
+
+  user-select: none;
+
+  -webkit-user-drag: none;
+}
+
+/* LINKS + BUTTONS */
+
+button,
+a {
+
+  -webkit-tap-highlight-color:
+    transparent;
+}
+
+/* SELECTION */
+
+::selection {
+
+  background:
+    rgba(176,138,87,0.22);
+
+  color:
+    #111;
+}
+
+/* SCROLLBAR */
+
+::-webkit-scrollbar {
+
+  width: 7px;
+}
+
+::-webkit-scrollbar-track {
+
+  background:
+    #ece4da;
+}
+
+::-webkit-scrollbar-thumb {
+
+  background:
+    linear-gradient(
+      to bottom,
+      #d4af6d,
+      #b08a57
+    );
+
+  border-radius: 999px;
+}
+
+/* PREMIUM UTILITIES */
+
+.glass {
+
+  background:
+    rgba(255,255,255,0.58);
+
+  backdrop-filter:
+    blur(18px);
+
+  -webkit-backdrop-filter:
+    blur(18px);
+
+  border:
+    1px solid rgba(255,255,255,0.16);
+}
+
+.glass-dark {
+
+  background:
+    rgba(18,18,18,0.35);
+
+  backdrop-filter:
+    blur(16px);
+
+  -webkit-backdrop-filter:
+    blur(16px);
+
+  border:
+    1px solid rgba(255,255,255,0.08);
+}
+
+.gold-shadow {
+
+  box-shadow:
+    0 15px 45px
+    rgba(176,138,87,0.12);
+}
+
+.soft-shadow {
+
+  box-shadow:
+    0 8px 30px
+    rgba(0,0,0,0.05);
+}
+
+.luxury-shadow {
+
+  box-shadow:
+    0 25px 70px
+    rgba(0,0,0,0.10);
+}
+
+/* TEXT GRADIENT */
+
+.text-gradient {
+
+  background:
+    linear-gradient(
+      135deg,
+      #1f170f,
+      #b08a57
+    );
+
+  -webkit-background-clip:
+    text;
+
+  -webkit-text-fill-color:
+    transparent;
+}
+
+/* PREMIUM BUTTON */
+
+.btn-luxury {
+
+  background:
+    #1f3a2c;
+
+  color:
+    #f5ead9;
+
+  transition:
+    all 0.4s ease;
+}
+
+.btn-luxury:hover {
+
+  background:
+    #294838;
+
+  transform:
+    translateY(-2px);
+}
+
+/* SECTION SPACING */
+
+.section-padding {
+
+  padding:
+    120px 6%;
+}
+
+/* CONTAINER */
+
+.container-luxury {
+
+  max-width:
+    1450px;
+
+  margin:
+    auto;
+}
+
+/* PREMIUM BORDER */
+
+.border-luxury {
+
+  border:
+    1px solid rgba(176,138,87,0.14);
+}
+/* HIDE SCROLLBAR */
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}

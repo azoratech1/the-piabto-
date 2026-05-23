@@ -1,0 +1,61 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+/* GLOBAL RESET */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+
+/* BODY */
+body {
+  font-family: "Inter", sans-serif;
+  background-color: #f1f5f9;
+  color: #0f172a;
+}
+
+
+/* SCROLLBAR */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #e2e8f0;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #0f172a;
+  border-radius: 10px;
+}
+
+
+/* INPUTS */
+input,
+textarea,
+select,
+button {
+  font-family: inherit;
+}
+
+
+/* REMOVE NUMBER INPUT ARROWS */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+
+/* SMOOTH TRANSITION */
+button,
+a,
+input,
+textarea,
+select {
+  transition: all 0.3s ease;
+}
