@@ -15,7 +15,7 @@ import { useRef } from "react";
 import {
   getHomepageImage,
 } from "../../services/api";
-import { jsx } from "react/jsx-runtime";
+
 const ICONS = {
 
   Wifi: Wifi,
@@ -38,7 +38,8 @@ const FloorsSection = ({
   floors,
   amenities,
 }) => {
-console.log("floors and ameneties are"+JSON.stringify(floors)+JSON.stringify(amenities))
+
+console.warn("floors and ameneties are"+JSON.stringify(floors)+JSON.stringify(amenities))
   const sliderRef = useRef(null);
 
   const scrollLeft = () => {
@@ -373,19 +374,18 @@ const floorImages = [
                       "
                     >
 
-                      <span
-                        className="
-                          text-white
-                          text-[34px]
-                          leading-none
-                          font-semibold
-                        "
-                      >
+                     <span
+  className="
+    text-white
+    text-[34px]
+    leading-none
+    font-semibold
+  "
+>
 
-                        {item.price}
+  ₹{item.rooms?.[0]?.pricePerRoom || "N/A"}
 
-                      </span>
-
+</span>
                       <span
                         className="
                           text-white/70

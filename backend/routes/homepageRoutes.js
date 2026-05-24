@@ -1,45 +1,49 @@
 import express from "express";
 
 import {
-
   getHomepage,
-
   updateHomepage,
-getHomepageImage
+  getHomepageImage,
 } from "../controllers/homepageController.js";
 
 import upload from "../middleware/uploadMiddleware.js";
 
 const router = express.Router();
 
+/* =========================
+   GET HOMEPAGE
+========================= */
+
 router.get(
   "/",
   getHomepage
 );
-router.get(
-  "/image/:type/:id?/:index?",
 
+/* =========================
+   GET HOMEPAGE IMAGE
+========================= */
+
+router.get(
+  "/image/:type/:index?",
   getHomepageImage
 );
-router.put(
 
+/* =========================
+   UPDATE HOMEPAGE
+========================= */
+
+router.put(
   "/update",
 
   upload.fields([
-
     {
-      name: "heroImage",
-      maxCount: 1,
+      name: "heroImages",
+      maxCount: 20,
     },
 
     {
       name: "aboutImage",
       maxCount: 1,
-    },
-
-    {
-      name: "floorImages",
-      maxCount: 10,
     },
   ]),
 

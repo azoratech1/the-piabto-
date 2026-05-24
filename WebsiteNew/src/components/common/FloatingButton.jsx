@@ -8,22 +8,45 @@ import {
   BedDouble,
 } from "lucide-react";
 
-import { useState } from "react";
+import {
+  useEffect,
+  useState,
+} from "react";
+
+import {
+  getRooms,
+  getFloors,
+  createEnquiry,
+} from "../../services/api";
 
 const FloatingContactButtons = () => {
 
   const [open, setOpen] =
     useState(false);
 
-  const [formData, setFormData] =
-    useState({
-      name: "",
-      phone: "",
-      roomType: "",
-      guests: "",
-      checkIn: "",
-    });
+const [formData, setFormData] =
+  useState({
 
+    name: "",
+
+    email: "",
+
+    phone: "",
+
+    interestedType: "room",
+
+    interestedIn: "",
+
+    guests: "",
+
+    checkIn: "",
+  });
+
+const [rooms, setRooms] =
+  useState([]);
+
+const [floors, setFloors] =
+  useState([]);
   const handleChange = (e) => {
 
     setFormData({
@@ -34,7 +57,41 @@ const FloatingContactButtons = () => {
   };
 
   const handleWhatsAppSubmit =
-    () => {
+  async () => {
+
+    try {
+
+      await createEnquiry({
+
+        name:
+          formData.name,
+
+        email:
+          formData.email,
+
+        mobile:
+          formData.phone,
+
+        interestedType:
+          formData.interestedType,
+
+        interestedIn:
+          formData.interestedIn,
+      });
+
+      const selectedItem =
+        formData.interestedType ===
+        "room"
+          ? rooms.find(
+              (r) =>
+                r._id ===
+                formData.interestedIn
+            )
+          : floors.find(
+              (f) =>
+                f._id ===
+                formData.interestedIn
+            );
 
       const message = `
 Luxury Stay Enquiry
@@ -43,23 +100,106 @@ Name: ${formData.name}
 
 Phone: ${formData.phone}
 
-Room Type: ${formData.roomType}
+Email: ${formData.email}
+
+Interested In:
+${selectedItem?.title || ""}
 
 Guests: ${formData.guests}
 
-Check In: ${formData.checkIn}
+Check In:
+${formData.checkIn}
 `;
 
-      const whatsappUrl = `https://wa.me/919999999999?text=${encodeURIComponent(
-        message
-      )}`;
+      const whatsappUrl =
+        `https://wa.me/919999999999?text=${encodeURIComponent(
+          message
+        )}`;
 
       window.open(
         whatsappUrl,
         "_blank"
       );
-    };
 
+      alert(
+        "Enquiry Submitted Successfully"
+      );
+
+      setOpen(false);
+
+      setFormData({
+
+        name: "",
+
+        email: "",
+
+        phone: "",
+
+        interestedType: "room",
+
+        interestedIn: "",
+
+        guests: "",
+
+        checkIn: "",
+      });
+
+    } catch (error) {
+
+      console.log(error);
+
+      alert(
+        "Something went wrong"
+      );
+    }
+  };
+useEffect(() => {
+
+  fetchData();
+
+}, []);
+
+const fetchData =
+  async () => {
+
+    try {
+
+      const roomsRes =
+        await getRooms();
+
+      const floorsRes =
+        await getFloors();
+
+      console.log(
+        "ROOMS",
+        roomsRes.data
+      );
+
+      console.log(
+        "FLOORS",
+        floorsRes.data
+      );
+
+      setRooms(
+        roomsRes.data.rooms ||
+        roomsRes.data ||
+        []
+      );
+
+      setFloors(
+        floorsRes.data.floors ||
+        floorsRes.data ||
+        []
+      );
+
+    } catch (error) {
+
+      console.log(
+        "FETCH ERROR",
+        error
+      );
+    }
+  };
   return (
     <>
       {/* DESKTOP FLOATING BUTTONS */}
@@ -199,65 +339,7 @@ Check In: ${formData.checkIn}
         </button>
 
         {/* CALL */}
-        <a
-          href="tel:+919999999999"
-          className="
-            group
-            mt-[8px]
-            w-[178px]
-            h-[52px]
-            bg-[#05291f]
-            flex
-            items-center
-            gap-3
-            pl-4
-            pr-5
-            rounded-l-[16px]
-            shadow-[0_10px_28px_rgba(0,0,0,0.18)]
-            transition-all
-            duration-500
-            hover:w-[190px]
-          "
-        >
-
-          {/* ICON */}
-          <div
-            className="
-              w-[30px]
-              h-[30px]
-              rounded-full
-              border
-              border-white/20
-              flex
-              items-center
-              justify-center
-              shrink-0
-            "
-          >
-
-            <Phone
-              size={15}
-              className="text-white"
-            />
-
-          </div>
-
-          {/* TEXT */}
-          <span
-            className="
-              text-white
-              text-[14px]
-              font-medium
-              tracking-[0.01em]
-            "
-          >
-
-            Call Now
-
-          </span>
-
-        </a>
-
+       
       </div>
 
       {/* MOBILE FLOATING */}
@@ -481,90 +563,145 @@ Check In: ${formData.checkIn}
                     focus:shadow-[0_0_0_4px_rgba(184,145,86,0.12)]
                   "
                 />
-
+<input
+  type="email"
+  name="email"
+  placeholder="Email Address"
+  value={formData.email}
+  onChange={handleChange}
+  className="
+    h-[56px]
+    rounded-2xl
+    border
+    border-[#ddd2c2]
+    px-5
+    text-[15px]
+    outline-none
+    transition-all
+    duration-300
+    focus:border-[#b89156]
+    focus:shadow-[0_0_0_4px_rgba(184,145,86,0.12)]
+  "
+/>
                 {/* ROW */}
-                <div className="grid grid-cols-2 gap-4">
+            {/* ROW */}
+<div className="grid grid-cols-1 md:grid-cols-3 gap-4">
 
-                  {/* ROOM */}
-                  <div className="relative">
+  {/* TYPE */}
+  <select
+    name="interestedType"
+    value={
+      formData.interestedType
+    }
+    onChange={handleChange}
+    className="
+      h-[56px]
+      rounded-2xl
+      border
+      border-[#ddd2c2]
+      px-4
+      text-[15px]
+      outline-none
+    "
+  >
 
-                    <BedDouble
-                      size={17}
-                      className="
-                        absolute
-                        top-1/2
-                        left-4
-                        -translate-y-1/2
-                        text-[#8b7355]
-                      "
-                    />
+    <option value="room">
+      Room
+    </option>
 
-                    <input
-                      type="text"
-                      name="roomType"
-                      placeholder="Room Type"
-                      value={formData.roomType}
-                      onChange={handleChange}
-                      className="
-                        w-full
-                        h-[56px]
-                        rounded-2xl
-                        border
-                        border-[#ddd2c2]
-                        pl-12
-                        pr-4
-                        text-[15px]
-                        outline-none
-                        transition-all
-                        duration-300
-                        focus:border-[#b89156]
-                        focus:shadow-[0_0_0_4px_rgba(184,145,86,0.12)]
-                      "
-                    />
+    <option value="floor">
+      Floor
+    </option>
 
-                  </div>
+  </select>
 
-                  {/* GUESTS */}
-                  <div className="relative">
+  {/* ROOMS / FLOORS */}
+  <select
+    name="interestedIn"
+    value={
+      formData.interestedIn
+    }
+    onChange={handleChange}
+    className="
+      h-[56px]
+      rounded-2xl
+      border
+      border-[#ddd2c2]
+      px-4
+      text-[15px]
+      outline-none
+    "
+  >
 
-                    <Users
-                      size={17}
-                      className="
-                        absolute
-                        top-1/2
-                        left-4
-                        -translate-y-1/2
-                        text-[#8b7355]
-                      "
-                    />
+    <option value="">
+      Select
+    </option>
 
-                    <input
-                      type="number"
-                      name="guests"
-                      placeholder="Guests"
-                      value={formData.guests}
-                      onChange={handleChange}
-                      className="
-                        w-full
-                        h-[56px]
-                        rounded-2xl
-                        border
-                        border-[#ddd2c2]
-                        pl-12
-                        pr-4
-                        text-[15px]
-                        outline-none
-                        transition-all
-                        duration-300
-                        focus:border-[#b89156]
-                        focus:shadow-[0_0_0_4px_rgba(184,145,86,0.12)]
-                      "
-                    />
+    {formData.interestedType ===
+    "room"
 
-                  </div>
+      ? rooms?.map((room) => (
 
-                </div>
+          <option
+            key={room._id}
+            value={room._id}
+          >
 
+            {room.title}
+
+          </option>
+        ))
+
+      : floors?.map((floor) => (
+
+          <option
+            key={floor._id}
+            value={floor._id}
+          >
+
+            {floor.title}
+
+          </option>
+        ))}
+
+  </select>
+
+  {/* GUESTS */}
+  <div className="relative">
+
+    <Users
+      size={17}
+      className="
+        absolute
+        top-1/2
+        left-4
+        -translate-y-1/2
+        text-[#8b7355]
+      "
+    />
+
+    <input
+      type="number"
+      name="guests"
+      placeholder="Guests"
+      value={formData.guests}
+      onChange={handleChange}
+      className="
+        w-full
+        h-[56px]
+        rounded-2xl
+        border
+        border-[#ddd2c2]
+        pl-12
+        pr-4
+        text-[15px]
+        outline-none
+      "
+    />
+
+  </div>
+
+</div>
                 {/* DATE */}
                 <div className="relative">
 

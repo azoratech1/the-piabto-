@@ -10,6 +10,9 @@ import galleryRoutes from "./routes/galleryRoutes.js";
 import dashboardRoutes from "./routes/dashboardRoutes.js";
 import homepageRoutes
 from "./routes/homepageRoutes.js";
+import floorRoutes from "./routes/floorRoutes.js"
+import enquiryRoutes
+from "./routes/enquiryRoutes.js";
 dotenv.config();
 
 const app = express();
@@ -44,11 +47,15 @@ app.use("/api/bookings", bookingRoutes);
 app.use("/api/gallery", galleryRoutes);
 
 app.use("/api/dashboard", dashboardRoutes);
-
+app.use(
+  "/api/enquiry",
+  enquiryRoutes
+);
 app.use(
   "/api/homepage",
   homepageRoutes
 );
+app.use("/api/floor", floorRoutes);
 // TEST ROUTE
 app.get("/", (req, res) => {
   res.send("Homestay Backend Running");

@@ -161,4 +161,106 @@ export const getHomepageImage =
 
     return `http://localhost:5000/api/homepage/image/${type}/${id}/${index}`;
   };
+  /* =========================
+   FLOOR APIs
+========================= */
+
+// GET ALL FLOORS
+/* =========================
+   FLOOR APIs
+========================= */
+
+// GET ALL FLOORS
+export const getFloors =
+  async () => {
+
+    return await API.get(
+      "/floor/get-floors"
+    );
+  };
+
+// GET SINGLE FLOOR
+export const getSingleFloor =
+  async (floorId) => {
+
+    return await API.get(
+      `/floor/get-floor/${floorId}`
+    );
+  };
+
+// CREATE FLOOR
+export const createFloor =
+  async (floorData) => {
+
+    return await API.post(
+      "/floor/create-floor",
+      floorData,
+      {
+        headers: {
+          "Content-Type":
+            "multipart/form-data",
+        },
+      }
+    );
+  };
+
+// UPDATE FLOOR
+export const updateFloor =
+  async (
+    floorId,
+    floorData
+  ) => {
+
+    return await API.put(
+      `/floor/update-floor/${floorId}`,
+      floorData,
+      {
+        headers: {
+          "Content-Type":
+            "multipart/form-data",
+        },
+      }
+    );
+  };
+
+// DELETE FLOOR
+export const deleteFloor =
+  async (floorId) => {
+
+    return await API.delete(
+      `/floor/delete-floor/${floorId}`
+    );
+  };
+
+// FLOOR IMAGE URL
+export const getFloorImage =
+  (
+    floorId,
+    imageIndex = 0
+  ) => {
+
+    return `http://localhost:5000/api/floor/floor-image/${floorId}/${imageIndex}`;
+  };
+  /* =========================
+   ENQUIRY APIs
+========================= */
+
+// CREATE ENQUIRY
+export const createEnquiry =
+  async (data) => {
+
+    return await API.post(
+      "/enquiry/create",
+      data
+    );
+  };
+
+// GET ALL ENQUIRIES
+export const getEnquiries =
+  async () => {
+
+    return await API.get(
+      "/enquiry/all"
+    );
+  };
 export default API;

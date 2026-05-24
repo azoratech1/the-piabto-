@@ -5,43 +5,55 @@ import {
   Image,
   FileText,
   LogOut,
+  Building2,
 } from "lucide-react";
 
 import { NavLink } from "react-router-dom";
 
 const Sidebar = () => {
-  const menuItems = [
-    {
-      name: "Dashboard",
-      path: "/dashboard",
-      icon: <LayoutDashboard size={20} />,
-    },
-    {
-      name: "Rooms",
-      path: "/rooms",
-      icon: <BedDouble size={20} />,
-    },
-    {
-      name: "Bookings",
-      path: "/bookings",
-      icon: <CalendarDays size={20} />,
-    },
-    {
-      name: "Gallery",
-      path: "/gallery",
-      icon: <Image size={20} />,
-    },
-    {
-      name: "Edit Homepage",
-      path: "/edithome",
-      icon: <Image size={20} />,
-    },
-    {
-      name: "Content",
-      path: "/content",
-      icon: <FileText size={20} />,
-    },
-  ];
+ const menuItems = [
+  {
+    name: "Dashboard",
+    path: "/dashboard",
+    icon: <LayoutDashboard size={20} />,
+  },
+
+  {
+    name: "Rooms",
+    path: "/rooms",
+    icon: <BedDouble size={20} />,
+  },
+
+  {
+    name: "Floors",
+    path: "/floors",
+    icon: <Building2 size={20} />,
+  },
+
+  {
+    name: "Bookings",
+    path: "/bookings",
+    icon: <CalendarDays size={20} />,
+  },
+
+  {
+    name: "Gallery",
+    path: "/gallery",
+    icon: <Image size={20} />,
+  },
+
+  {
+    name: "Edit Homepage",
+    path: "/edithome",
+    icon: <Image size={20} />,
+  },
+
+  {
+    name: "Content",
+    path: "/content",
+    icon: <FileText size={20} />,
+  },
+];
 
   return (
     <div className="w-[260px] h-screen bg-slate-900 text-white flex flex-col justify-between fixed left-0 top-0">

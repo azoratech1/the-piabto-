@@ -77,8 +77,11 @@ const REVIEWS = [
   },
 ];
 
-const GalleryReviewsSection = () => {
-
+const GalleryReviewsSection = ({
+  reviews,
+  attractions,
+})=> {
+console.log("reviews are"+JSON.stringify(reviews))
   const [currentReview, setCurrentReview] =
     useState(0);
 

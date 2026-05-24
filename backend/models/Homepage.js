@@ -12,16 +12,44 @@ const imageSchema =
 const homepageSchema =
   new mongoose.Schema({
 
-    hero: {
+  hero: [
+  {
+    subtitle: String,
 
-      subtitle: String,
+    title: String,
 
-      title: String,
+    description: String,
 
-      description: String,
-
-      image: imageSchema,
+    buttonText: {
+      type: String,
+      default: "Explore The Estate",
     },
+
+    buttonLink: {
+      type: String,
+      default: "/rooms",
+    },
+
+    showButton: {
+      type: Boolean,
+      default: true,
+    },
+
+    showVideoButton: {
+      type: Boolean,
+      default: false,
+    },
+
+    videoText: {
+      type: String,
+      default: "Watch Video",
+    },
+
+    videoUrl: String,
+
+    image: imageSchema,
+  },
+],
 
     about: {
 
@@ -40,19 +68,7 @@ const homepageSchema =
       },
     ],
 
-    floors: [
-      {
-        title: String,
-
-        subtitle: String,
-
-        description: String,
-
-        price: String,
-
-        image: imageSchema,
-      },
-    ],
+    
 
     reviews: [
       {

@@ -1,4 +1,7 @@
-import { motion } from "framer-motion";
+import {
+  motion,
+  AnimatePresence,
+} from "framer-motion";
 
 import {
   ArrowRight,
@@ -7,12 +10,67 @@ import {
 
 import BookingStrip from "../common/BookingStrip";
 
-import heroBg from "../../assets/Herobg.png";
 import {
   useNavigate,
 } from "react-router-dom";
-const HeroSection = ({ hero }) => {
-const navigate = useNavigate();
+
+import {
+  useState,
+  useEffect,
+} from "react";
+
+const HeroSection = ({ hero = [] }) => {
+
+  const navigate = useNavigate();
+
+  // FALLBACK IF NO HERO DATA
+  const heroSlides =
+    hero?.length > 0
+      ? hero
+      : [
+          {
+            subtitle: "Luxury Stay",
+            title: "Experience Premium Hospitality",
+            description:
+              "Discover comfort, elegance and unforgettable moments.",
+            showButton: true,
+            buttonText: "Explore Rooms",
+            buttonLink: "/rooms",
+            showVideoButton: true,
+            videoText: "Watch Video",
+            videoUrl:
+              "https://www.youtube.com/",
+          },
+        ];
+
+  const [currentSlide, setCurrentSlide] =
+    useState(0);
+
+  // AUTO SLIDER
+  useEffect(() => {
+
+    const interval = setInterval(() => {
+
+      setCurrentSlide((prev) =>
+        prev === heroSlides.length - 1
+          ? 0
+          : prev + 1
+      );
+
+    }, 5000);
+
+    return () =>
+      clearInterval(interval);
+
+  }, [heroSlides.length]);
+
+  const activeHero =
+    heroSlides[currentSlide];
+
+  // IMAGE URL
+const imageUrl =
+  `http://localhost:5000/api/homepage/image/hero/${currentSlide}`;
+
   return (
     <section
       className="
@@ -24,20 +82,48 @@ const navigate = useNavigate();
     >
 
       {/* BACKGROUND */}
-      <div className="absolute inset-0">
+      <div className="absolute inset-0 overflow-hidden">
 
-        <img
-          src={heroBg}
-          alt="Luxury Estate"
-          className="
-            w-full
-            h-full
-            object-cover
-            object-center
-          "
-        />
+        <AnimatePresence mode="wait">
 
-        {/* CINEMATIC OVERLAY */}
+          <motion.img
+            key={currentSlide}
+            src={imageUrl}
+            alt="Luxury Estate"
+
+            initial={{
+              opacity: 0,
+              scale: 1.08,
+            }}
+
+            animate={{
+              opacity: 1,
+              scale: 1,
+            }}
+
+            exit={{
+              opacity: 0,
+            }}
+
+            transition={{
+              duration: 1.8,
+              ease: "easeInOut",
+            }}
+
+            className="
+              absolute
+              inset-0
+              w-full
+              h-full
+              object-cover
+              object-center
+              brightness-[0.82]
+            "
+          />
+
+        </AnimatePresence>
+
+        {/* DARK OVERLAY */}
         <div
           className="
             absolute
@@ -103,116 +189,148 @@ const navigate = useNavigate();
           >
 
             {/* TOP LABEL */}
-            <motion.div
+            <AnimatePresence mode="wait">
 
-              initial={{
-                opacity: 0,
-                y: 20,
-              }}
+              <motion.div
 
-              animate={{
-                opacity: 1,
-                y: 0,
-              }}
+                key={`subtitle-${currentSlide}`}
 
-              transition={{
-                duration: 0.7,
-              }}
+                initial={{
+                  opacity: 0,
+                  y: 20,
+                }}
 
-              className="
-                flex
-                items-center
-                gap-4
-                mb-5
-              "
-            >
+                animate={{
+                  opacity: 1,
+                  y: 0,
+                }}
 
-              <div
+                exit={{
+                  opacity: 0,
+                  y: -20,
+                }}
+
+                transition={{
+                  duration: 0.7,
+                }}
+
                 className="
-                  w-9
-                  h-[1px]
-                  bg-[#c6a166]
-                "
-              />
-
-              <span
-                className="
-                  text-[10px]
-                  sm:text-[11px]
-                  uppercase
-                  tracking-[0.22em]
-                  text-[#d7b57c]
-                  font-medium
+                  flex
+                  items-center
+                  gap-4
+                  mb-5
                 "
               >
 
-               {hero?.subtitle}
+                <div
+                  className="
+                    w-9
+                    h-[1px]
+                    bg-[#c6a166]
+                  "
+                />
 
-              </span>
+                <span
+                  className="
+                    text-[10px]
+                    sm:text-[11px]
+                    uppercase
+                    tracking-[0.22em]
+                    text-[#d7b57c]
+                    font-medium
+                  "
+                >
 
-            </motion.div>
+                  {activeHero?.subtitle}
 
-            {/* HEADING */}
-            <motion.h1
+                </span>
 
-              initial={{
-                opacity: 0,
-                y: 50,
-              }}
+              </motion.div>
 
-              animate={{
-                opacity: 1,
-                y: 0,
-              }}
+            </AnimatePresence>
 
-              transition={{
-                duration: 1,
-                delay: 0.1,
-              }}
+            {/* TITLE */}
+            <AnimatePresence mode="wait">
 
-              className="
-                text-white
-                font-heading
-               text-[clamp(38px,6vw,74px)]
-                leading-[1.02]
-                tracking-[-0.06em]
-              "
-            >
-{hero?.title}
+              <motion.h1
 
-            </motion.h1>
+                key={`title-${currentSlide}`}
+
+                initial={{
+                  opacity: 0,
+                  y: 50,
+                }}
+
+                animate={{
+                  opacity: 1,
+                  y: 0,
+                }}
+
+                exit={{
+                  opacity: 0,
+                  y: -50,
+                }}
+
+                transition={{
+                  duration: 1,
+                }}
+
+                className="
+                  text-white
+                  font-heading
+                  text-[clamp(38px,6vw,74px)]
+                  leading-[1.02]
+                  tracking-[-0.06em]
+                "
+              >
+
+                {activeHero?.title}
+
+              </motion.h1>
+
+            </AnimatePresence>
 
             {/* DESCRIPTION */}
-            <motion.p
+            <AnimatePresence mode="wait">
 
-              initial={{
-                opacity: 0,
-                y: 30,
-              }}
+              <motion.p
 
-              animate={{
-                opacity: 1,
-                y: 0,
-              }}
+                key={`desc-${currentSlide}`}
 
-              transition={{
-                duration: 1,
-                delay: 0.25,
-              }}
+                initial={{
+                  opacity: 0,
+                  y: 30,
+                }}
 
-              className="
-                mt-5
-                text-[12px]
-                sm:text-[13px]
-                leading-[1.9]
-                text-white/78
-                max-w-[470px]
-              "
-            >
+                animate={{
+                  opacity: 1,
+                  y: 0,
+                }}
 
-             {hero?.description}
+                exit={{
+                  opacity: 0,
+                  y: -30,
+                }}
 
-            </motion.p>
+                transition={{
+                  duration: 1,
+                }}
+
+                className="
+                  mt-5
+                  text-[12px]
+                  sm:text-[13px]
+                  leading-[1.9]
+                  text-white/78
+                  max-w-[470px]
+                "
+              >
+
+                {activeHero?.description}
+
+              </motion.p>
+
+            </AnimatePresence>
 
             {/* BUTTONS */}
             <motion.div
@@ -240,96 +358,162 @@ const navigate = useNavigate();
               "
             >
 
-              {/* PRIMARY */}
-              <button
-                onClick={() =>
-                  navigate("/rooms")
-                }
-                className="
-                  group
-                  h-[48px]
-                  sm:h-[50px]
-                  px-6
-                  sm:px-7
-                  bg-[#163628]
-                  border
-                  border-[#b08a57]
-                  text-[#f5ead7]
-                  text-[10px]
-                  uppercase
-                  tracking-[0.18em]
-                  flex
-                  items-center
-                  gap-3
-                  transition-all
-                  duration-500
-                  hover:bg-[#204937]
-                "
-              >
+              {/* PRIMARY BUTTON */}
+              {activeHero?.showButton && (
 
-                Explore The Estate
+                <button
 
-                <ArrowRight
-                  size={14}
+                  onClick={() =>
+                    navigate(
+                      activeHero?.buttonLink ||
+                        "/rooms"
+                    )
+                  }
+
                   className="
-                    transition-all
-                    duration-500
-                    group-hover:translate-x-1
-                  "
-                />
-
-              </button>
-
-              {/* VIDEO BUTTON */}
-              <button
-                className="
-                  group
-                  h-[48px]
-                  sm:h-[50px]
-                  px-6
-                  sm:px-7
-                  border
-                  border-white/20
-                  bg-black/15
-                  backdrop-blur-md
-                  text-white
-                  text-[10px]
-                  uppercase
-                  tracking-[0.18em]
-                  flex
-                  items-center
-                  gap-3
-                  transition-all
-                  duration-500
-                  hover:bg-white/10
-                "
-              >
-
-                <div
-                  className="
-                    w-7
-                    h-7
-                    rounded-full
+                    group
+                    h-[48px]
+                    sm:h-[50px]
+                    px-6
+                    sm:px-7
+                    bg-[#163628]
                     border
-                    border-white/25
+                    border-[#b08a57]
+                    text-[#f5ead7]
+                    text-[10px]
+                    uppercase
+                    tracking-[0.18em]
                     flex
                     items-center
-                    justify-center
+                    gap-3
+                    transition-all
+                    duration-500
+                    hover:bg-[#204937]
                   "
                 >
 
-                  <Play
-                    size={11}
-                    fill="white"
+                  {activeHero?.buttonText ||
+                    "Explore"}
+
+                  <ArrowRight
+                    size={14}
+                    className="
+                      transition-all
+                      duration-500
+                      group-hover:translate-x-1
+                    "
                   />
 
-                </div>
+                </button>
 
-                Watch Video
+              )}
 
-              </button>
+              {/* VIDEO BUTTON */}
+              {activeHero?.showVideoButton &&
+                activeHero?.videoUrl && (
+
+                  <a
+
+                    href={
+                      activeHero.videoUrl
+                    }
+
+                    target="_blank"
+
+                    rel="noreferrer"
+
+                    className="
+                      group
+                      h-[48px]
+                      sm:h-[50px]
+                      px-6
+                      sm:px-7
+                      border
+                      border-white/20
+                      bg-black/15
+                      backdrop-blur-md
+                      text-white
+                      text-[10px]
+                      uppercase
+                      tracking-[0.18em]
+                      flex
+                      items-center
+                      gap-3
+                      transition-all
+                      duration-500
+                      hover:bg-white/10
+                    "
+                  >
+
+                    <div
+                      className="
+                        w-7
+                        h-7
+                        rounded-full
+                        border
+                        border-white/25
+                        flex
+                        items-center
+                        justify-center
+                      "
+                    >
+
+                      <Play
+                        size={11}
+                        fill="white"
+                      />
+
+                    </div>
+
+                    {activeHero?.videoText ||
+                      "Watch Video"}
+
+                  </a>
+
+                )}
 
             </motion.div>
+
+            {/* SLIDER DOTS */}
+            <div
+              className="
+                flex
+                items-center
+                gap-3
+                mt-10
+              "
+            >
+
+              {heroSlides.map(
+                (_, index) => (
+
+                  <button
+
+                    key={index}
+
+                    onClick={() =>
+                      setCurrentSlide(
+                        index
+                      )
+                    }
+
+                    className={`
+                      transition-all
+                      duration-300
+                      rounded-full
+                      ${
+                        currentSlide ===
+                        index
+                          ? "w-10 h-[4px] bg-[#d7b57c]"
+                          : "w-3 h-3 bg-white/40"
+                      }
+                    `}
+                  />
+
+                )
+              )}
+
+            </div>
 
           </div>
 

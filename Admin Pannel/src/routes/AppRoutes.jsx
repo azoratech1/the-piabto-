@@ -13,6 +13,9 @@ import Gallery from "../pages/Gallery";
 
 import Content from "../pages/Content";
 import EditHomepage from "../pages/EditHomepage";
+import AddFloor from "../pages/AddFloor";
+import EditFloor from "../pages/EditFloor";
+import Floors from "../pages/Floors";
 const AppRoutes = () => {
   const token = localStorage.getItem("token");
 
@@ -69,7 +72,32 @@ const AppRoutes = () => {
             </ProtectedRoute>
           }
         />
+<Route
+  path="/floors"
+  element={
+    <ProtectedRoute>
+      <Floors />
+    </ProtectedRoute>
+  }
+/>
 
+<Route
+  path="/floors/add"
+  element={
+    <ProtectedRoute>
+      <AddFloor />
+    </ProtectedRoute>
+  }
+/>
+
+<Route
+  path="/floors/edit/:id"
+  element={
+    <ProtectedRoute>
+      <EditFloor />
+    </ProtectedRoute>
+  }
+/>
         {/* BOOKINGS */}
         <Route
           path="/bookings"

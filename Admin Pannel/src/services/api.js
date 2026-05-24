@@ -141,3 +141,55 @@ export const updateHomepage = (data) =>
       },
     }
   );
+  /* =========================
+   FLOOR APIs
+========================= */
+
+// GET ALL FLOORS
+export const getFloors = () =>
+  API.get("/floor/get-floors");
+
+
+// GET SINGLE FLOOR
+export const getSingleFloor = (id) =>
+  API.get(`/floor/get-floor/${id}`);
+
+
+// CREATE FLOOR
+export const createFloor = (data) =>
+  API.post(
+    "/floor/create-floor",
+    data
+  );
+
+
+// UPDATE FLOOR
+export const updateFloor = (
+  id,
+  data
+) =>
+  API.put(
+    `/floor/update-floor/${id}`,
+    data
+  );
+
+
+// DELETE FLOOR
+export const deleteFloor = (id) =>
+  API.delete(
+    `/floor/delete-floor/${id}`
+  );
+  /* =========================
+   HOMEPAGE IMAGE APIs
+========================= */
+
+// GET HOMEPAGE IMAGE
+export const getHomepageImage = (
+  type,
+  id = "",
+  index = 0
+) => {
+
+  return `http://localhost:5000/api/homepage/image/${type}/${index}`;
+
+};

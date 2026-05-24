@@ -13,14 +13,15 @@ import FloorsSection from "../components/Home/Floors";
 
 import GalleryReviewsSection from "../components/Home/GallerySection";
 
-
+import { getFloors } from "../services/api";
 
 import {
   getHomepage,
 } from "../services/api";
 
 const Home = () => {
-
+const [floors, setFloors] =
+  useState([]);
   const [homepage,
     setHomepage] =
     useState(null);
@@ -33,7 +34,33 @@ const Home = () => {
   /* =========================
      FETCH HOMEPAGE
   ========================= */
+useEffect(() => {
 
+  const fetchFloors =
+    async () => {
+
+      try {
+
+        const res =
+          await getFloors();
+
+        console.log(
+          "floors api",
+         JSON.stringify(res)
+        );
+
+        setFloors(res.data.floors);
+
+      } catch (error) {
+
+        console.log(error);
+
+      }
+    };
+
+  fetchFloors();
+
+}, []);
   const fetchHomepage =
     async () => {
 
@@ -97,7 +124,7 @@ const Home = () => {
       {/* FLOORS */}
       <FloorsSection
         floors={
-          homepage?.floors
+          floors
         }
 
         amenities={
